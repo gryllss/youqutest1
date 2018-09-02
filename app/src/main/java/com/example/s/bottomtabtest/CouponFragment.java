@@ -24,7 +24,7 @@ public class CouponFragment extends BackHandledFragment {
 
     public WebView couponWebView;
 
-    private WebSettings webSettings;
+//    private WebSettings webSettings;
 
     private String url = "http://www.youjiequ.com/index.php?r=class/sub";
 
@@ -51,7 +51,7 @@ public class CouponFragment extends BackHandledFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_coupon, container, false);
         couponWebView = (WebView) view.findViewById(R.id.wv_coupon);
-        webSettings = couponWebView.getSettings();
+//        webSettings = couponWebView.getSettings();
         final TextView tvRefreshcoupon = (TextView) view.findViewById(R.id.coupon_refresh);
         tvRefreshcoupon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,21 +59,22 @@ public class CouponFragment extends BackHandledFragment {
                 couponWebView.reload();
             }
         });
-        return view;
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        couponWebView.getSettings().setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);//自适应屏幕大小
-        webSettings.setLoadWithOverviewMode(true);
-        couponWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
-//        webSettings.setDatabaseEnabled(true);
-//        webSettings.setAppCacheEnabled(true);
-//        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         couponWebView.loadUrl(url);
         couponWebView.setWebViewClient(new WebViewClient(){
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                WebViewCacheInterceptorInst.getInstance().loadUrl(couponWebView, request.getUrl().toString());
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                WebViewCacheInterceptorInst.getInstance().loadUrl(couponWebView, url);
+                return true;
+            }
+
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Nullable
             @Override
@@ -85,9 +86,24 @@ public class CouponFragment extends BackHandledFragment {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
                 return WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
-
             }
         });
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        couponWebView.getSettings().setJavaScriptEnabled(true);
+//        webSettings.setUseWideViewPort(true);//自适应屏幕大小
+//        webSettings.setLoadWithOverviewMode(true);
+//        couponWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
+//        webSettings.setDatabaseEnabled(true);
+//        webSettings.setAppCacheEnabled(true);
+//        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+
 
     }
 

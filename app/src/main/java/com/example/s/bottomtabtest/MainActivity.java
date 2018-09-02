@@ -16,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +60,8 @@ public class MainActivity extends FragmentActivity implements BackHandledInterfa
                         break;
                     case R.id.rb_my:
                         changeFragment(MyFragment.class.getName());
+
+//                        CleanMessageUtil.clearAllCache(getApplicationContext());//这个是可以用于清楚缓存的
                         break;
                 }
             }
@@ -65,6 +69,7 @@ public class MainActivity extends FragmentActivity implements BackHandledInterfa
         if (savedInstanceState == null) {
             changeFragment(VideoFragment.class.getName());
         }
+
 
 
 
