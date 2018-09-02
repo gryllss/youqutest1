@@ -35,6 +35,8 @@ public class TvFragment extends BackHandledFragment {
 
     private String url = "http://wx.iptv789.com/?act=home";
 
+    private long exittime = 0;
+
 
     public TvFragment() {
 
@@ -120,11 +122,27 @@ public class TvFragment extends BackHandledFragment {
                 return true;
 
             } else {
-                Log.d("Conversatio退出", "Conversatio退出");
-                return false;
+                //自己加的
+                if (System.currentTimeMillis() - exittime < 2000) {
+//                    Log.i("tag", "onKeyDown: " + "退出程序");
+                    getActivity().finish();
+                    //System.exit(0);
+                } else {
+                    Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exittime = System.currentTimeMillis();
+                }
+//                Log.d("Conversatio退出", "Conversatio退出");
+                return true;
+            }
+
+
+
             }
 
         }
 
 
-    }
+
+
+
+

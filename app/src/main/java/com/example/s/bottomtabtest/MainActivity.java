@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ public class MainActivity extends FragmentActivity implements BackHandledInterfa
     private RadioGroup mRgTab;
     private List<Fragment> mFragmentList = new ArrayList<>();
 
-    private long exitTime = 0;
+
 
 
 
@@ -123,6 +124,7 @@ public class MainActivity extends FragmentActivity implements BackHandledInterfa
             }
         }
     }
+
 
 
 
