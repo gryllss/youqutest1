@@ -19,21 +19,21 @@ public class APP extends Application {
         WebViewCacheInterceptor.Builder builder =  new WebViewCacheInterceptor.Builder(this);
 
 
-        builder.setCachePath(new File(this.getCacheDir(),"cache_path_name"))//设置缓存路径，默认getCacheDir，名称CacheWebViewCache
-                .setCacheSize(1024*1024*100)//设置缓存大小，默认100M
-                .setConnectTimeoutSecond(20)//设置http请求链接超时，默认20秒
-                .setReadTimeoutSecond(20);//设置http请求链接读取超时，默认20秒
-
-
-        CacheExtensionConfig extension = new CacheExtensionConfig();
-        extension.addExtension("json").removeExtension("swf");
-
-        builder.setCacheExtensionConfig(extension);
-        builder.setAssetsDir("static");
-        builder.setDebug(true);
-
-        WebViewCacheInterceptorInst.getInstance().
-                init(builder);
+//        builder.setCachePath(new File(this.getCacheDir(),"cache_path_name"))//设置缓存路径，默认getCacheDir，名称CacheWebViewCache
+//                .setCacheSize(1024*1024*100)//设置缓存大小，默认100M
+//                .setConnectTimeoutSecond(20)//设置http请求链接超时，默认20秒
+//                .setReadTimeoutSecond(20);//设置http请求链接读取超时，默认20秒
+//
+//
+//        CacheExtensionConfig extension = new CacheExtensionConfig();
+//        extension.addExtension("json").removeExtension("swf");
+//
+//        builder.setCacheExtensionConfig(extension);
+//        builder.setAssetsDir("static");
+//        builder.setDebug(true);
+//
+//        WebViewCacheInterceptorInst.getInstance().
+//                init(builder);
 
 //        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
 //

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -20,15 +21,13 @@ import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
 public class MallFragment extends BackHandledFragment {
 
 
-
     public WebView mallWebView;
 
-//    private WebSettings webSettings;
+    private WebSettings webSettings;
 
     private String url = " http://www.youjiequ.com/index.php?r=index/wap";
 
     private long exittime = 0;
-
 
 
     public MallFragment() {
@@ -52,8 +51,16 @@ public class MallFragment extends BackHandledFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mall, container, false);
         mallWebView = (WebView) view.findViewById(R.id.wv_mall);
-        SetWebView.initSettings(mallWebView);
-//        webSettings = mallWebView.getSettings();
+
+        webSettings = mallWebView.getSettings();
+        mallWebView.getSettings().setJavaScriptEnabled(true);
+        mallWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
+
+        webSettings.setUseWideViewPort(true);//自适应屏幕大小
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         TextView tvRefreshMall = (TextView) view.findViewById(R.id.mall_refresh);
         tvRefreshMall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,31 +71,18 @@ public class MallFragment extends BackHandledFragment {
         });
 
         mallWebView.loadUrl(url);
-        mallWebView.setWebViewClient(new WebViewClient(){
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                WebViewCacheInterceptorInst.getInstance().loadUrl(mallWebView, request.getUrl().toString());
-                return true;
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                WebViewCacheInterceptorInst.getInstance().loadUrl(mallWebView, url);
-                return true;
-            }
-
+        mallWebView.setWebViewClient(new WebViewClient() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Nullable
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
+                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
             }
 
             @Nullable
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                return WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
+                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
             }
         });
 
@@ -98,16 +92,6 @@ public class MallFragment extends BackHandledFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        mallWebView.getSettings().setJavaScriptEnabled(true);
-//        mallWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
-//
-//        webSettings.setUseWideViewPort(true);//自适应屏幕大小
-//        webSettings.setLoadWithOverviewMode(true);
-//        webSettings.setDatabaseEnabled(true);
-//        webSettings.setAppCacheEnabled(true);
-//        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-
 
 
     }
@@ -127,15 +111,16 @@ public class MallFragment extends BackHandledFragment {
             //  Toast.makeText(this,"网页加载错误！",0).show();
         }
     }
-    @Override
-    public  boolean onBackPressed(){
 
-        if(mallWebView.canGoBack()){
+    @Override
+    public boolean onBackPressed() {
+
+        if (mallWebView.canGoBack()) {
             mallWebView.goBack();
 //            Log.d("webView.goBack()", "webView.goBack()");
             return true;
 
-        }else{
+        } else {
             //自己加的
             if (System.currentTimeMillis() - exittime < 2000) {
 //                    Log.i("tag", "onKeyDown: " + "退出程序");
@@ -152,11 +137,6 @@ public class MallFragment extends BackHandledFragment {
 
 
     }
-
-
-
-
-
 
 
 }

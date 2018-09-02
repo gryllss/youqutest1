@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ public class TvFragment extends BackHandledFragment {
 
     public WebView tvWebView;
 
-//    private WebSettings webSettings;
+    private WebSettings webSettings;
 
     private String url = "http://wx.iptv789.com/?act=home";
 
@@ -50,35 +51,28 @@ public class TvFragment extends BackHandledFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tv, container, false);
         tvWebView = (WebView) view.findViewById(R.id.wv_tv);
-//        webSettings = tvWebView.getSettings();
-        SetWebView.initSettings(tvWebView);
+        webSettings = tvWebView.getSettings();
+        tvWebView.getSettings().setJavaScriptEnabled(true);
+        tvWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
+        webSettings.setUseWideViewPort(true);//自适应屏幕大小
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         tvWebView.loadUrl(url);
         tvWebView.setWebViewClient(new WebViewClient() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                WebViewCacheInterceptorInst.getInstance().loadUrl(tvWebView, request.getUrl().toString());
-                return true;
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                WebViewCacheInterceptorInst.getInstance().loadUrl(tvWebView, url);
-                return true;
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Nullable
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
+                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
             }
 
             @Nullable
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                return WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
+                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
             }
 
         });
@@ -90,31 +84,8 @@ public class TvFragment extends BackHandledFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        tvWebView.getSettings().setJavaScriptEnabled(true);
-//        tvWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
-//        webSettings.setUseWideViewPort(true);//自适应屏幕大小
-//        webSettings.setLoadWithOverviewMode(true);
-//        webSettings.setDatabaseEnabled(true);
-//        webSettings.setAppCacheEnabled(true);
-//        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-//        initSettings();
-//
-//        tvWebView.loadUrl(url);
-//        tvWebView.setWebViewClient(new WebViewClient(){
-//            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//            @Nullable
-//            @Override
-//            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-//                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
-//            }
-//
-//            @Nullable
-//            @Override
-//            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-//                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
-//            }
-//
-//        });
+
+
 
 
 
