@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import android.widget.Toast;
 
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
 
-public class CouponFragment extends BackHandledFragment {
+public class CouponFragment extends Fragment {
 
     public WebView couponWebView;
 
@@ -34,7 +35,7 @@ public class CouponFragment extends BackHandledFragment {
 
     }
 
-    public static CouponFragment newInstance() {
+    public static Fragment newInstance() {
         CouponFragment fragment = new CouponFragment();
         return fragment;
     }
@@ -53,6 +54,7 @@ public class CouponFragment extends BackHandledFragment {
         couponWebView = (WebView) view.findViewById(R.id.wv_coupon);
         webSettings = couponWebView.getSettings();
         couponWebView.getSettings().setJavaScriptEnabled(true);
+
         webSettings.setUseWideViewPort(true);//自适应屏幕大小
         webSettings.setLoadWithOverviewMode(true);
         couponWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
@@ -83,6 +85,31 @@ public class CouponFragment extends BackHandledFragment {
             }
         });
 
+        couponWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK ) {
+                        //这里处理返回键事件
+                        if (couponWebView.canGoBack()){
+                            couponWebView.goBack();
+//                            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }else {
+                            if (System.currentTimeMillis() - exittime <2000){
+                                getActivity().finish();
+                            }else {
+                                exittime = System.currentTimeMillis();
+                                Toast.makeText(getActivity(), "再按一次退出应用", Toast.LENGTH_SHORT).show();
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -109,28 +136,5 @@ public class CouponFragment extends BackHandledFragment {
         }
     }
 
-    @Override
-    public boolean onBackPressed() {
 
-        if (couponWebView.canGoBack()) {
-            couponWebView.goBack();
-            Log.d("webView.goBack()", "webView.goBack()");
-            return true;
-
-        } else {
-            //自己加的
-            if (System.currentTimeMillis() - exittime < 2000) {
-//                    Log.i("tag", "onKeyDown: " + "退出程序");
-                getActivity().finish();
-                //System.exit(0);
-            } else {
-                Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exittime = System.currentTimeMillis();
-                return true;
-            }
-//                Log.d("Conversatio退出", "Conversatio退出");
-            return false;
-        }
-
-    }
 }

@@ -9,18 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class VideoFragment extends BackHandledFragment {
+public class VideoFragment extends Fragment {
 
     private long exittime = 0;
+
     public VideoFragment() {
 
     }
 
-    public static VideoFragment newInstance() {
+    public static Fragment newInstance() {
         VideoFragment fragment = new VideoFragment();
         return fragment;
     }
-
 
 
     @Override
@@ -32,27 +32,11 @@ public class VideoFragment extends BackHandledFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_video,container,false);
+        return inflater.inflate(R.layout.fragment_video, container, false);
     }
 
 
-    @Override
-    public boolean onBackPressed() {
-        if (System.currentTimeMillis() - exittime < 2000) {
-//                    Log.i("tag", "onKeyDown: " + "退出程序");
-            getActivity().finish();
-            //System.exit(0);
-        } else {
-            Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-            exittime = System.currentTimeMillis();
-            return true;
-        }
-//                Log.d("Conversatio退出", "Conversatio退出");
-        return false;
-    }
-
-
-    }
+}
 
 
 

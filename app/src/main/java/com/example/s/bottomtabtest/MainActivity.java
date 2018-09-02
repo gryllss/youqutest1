@@ -8,6 +8,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,15 +25,10 @@ import java.util.List;
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptor;
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
 
-public class MainActivity extends FragmentActivity implements BackHandledInterface {
-
-    private BackHandledFragment mBackHandedFragment;
-    private boolean hadIntercept;
+public class MainActivity extends AppCompatActivity {
 
     private RadioGroup mRgTab;
     private List<Fragment> mFragmentList = new ArrayList<>();
-
-
 
 
 
@@ -113,22 +109,8 @@ public class MainActivity extends FragmentActivity implements BackHandledInterfa
 
 
 
-    @Override
-    public void setSelectedFragment(BackHandledFragment selectedFragment) {
-        this.mBackHandedFragment = selectedFragment;
-    }
 
-    @Override
-    public void onBackPressed() {
-        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
-            if(getSupportFragmentManager().getBackStackEntryCount() == 0){
 
-                super.onBackPressed(); //退出
-            }else{
-                getSupportFragmentManager().popBackStack(); //fragment 出栈
-            }
-        }
-    }
 
 
 

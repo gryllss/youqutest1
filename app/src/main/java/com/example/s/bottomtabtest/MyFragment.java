@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class MyFragment extends BackHandledFragment {
+public class MyFragment extends Fragment {
 
     private long exittime = 0;
 
@@ -17,7 +17,7 @@ public class MyFragment extends BackHandledFragment {
 
     }
 
-    public static MyFragment newInstance() {
+    public static Fragment newInstance() {
         MyFragment fragment = new MyFragment();
         return fragment;
     }
@@ -37,19 +37,5 @@ public class MyFragment extends BackHandledFragment {
         return inflater.inflate(R.layout.fragment_my,container,false);
     }
 
-    @Override
-    public boolean onBackPressed() {
 
-        if (System.currentTimeMillis() - exittime < 2000) {
-//                    Log.i("tag", "onKeyDown: " + "退出程序");
-            getActivity().finish();
-            //System.exit(0);
-        } else {
-            Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-            exittime = System.currentTimeMillis();
-            return true;
-        }
-//                Log.d("Conversatio退出", "Conversatio退出");
-        return false;
-    }
 }
