@@ -15,6 +15,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
@@ -28,7 +29,7 @@ public class CouponFragment extends BackHandledFragment {
     private String url = "http://www.youjiequ.com/index.php?r=class/sub";
 
     private long exittime = 0;
-    
+
     public CouponFragment() {
 
     }
@@ -51,6 +52,13 @@ public class CouponFragment extends BackHandledFragment {
         View view = inflater.inflate(R.layout.fragment_coupon, container, false);
         couponWebView = (WebView) view.findViewById(R.id.wv_coupon);
         webSettings = couponWebView.getSettings();
+        final TextView tvRefreshcoupon = (TextView) view.findViewById(R.id.coupon_refresh);
+        tvRefreshcoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                couponWebView.reload();
+            }
+        });
         return view;
     }
 
@@ -115,9 +123,10 @@ public class CouponFragment extends BackHandledFragment {
             } else {
                 Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exittime = System.currentTimeMillis();
+                return true;
             }
 //                Log.d("Conversatio退出", "Conversatio退出");
-            return true;
+            return false;
         }
 
     }

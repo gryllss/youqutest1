@@ -18,6 +18,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,6 +37,8 @@ public class TvFragment extends BackHandledFragment {
     private String url = "http://wx.iptv789.com/?act=home";
 
     private long exittime = 0;
+
+
 
 
     public TvFragment() {
@@ -72,7 +75,7 @@ public class TvFragment extends BackHandledFragment {
 //        webSettings.setLoadWithOverviewMode(true);
 //        webSettings.setDatabaseEnabled(true);
 //        webSettings.setAppCacheEnabled(true);
-//        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+//        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         tvWebView.loadUrl(url);
         tvWebView.setWebViewClient(new WebViewClient() {
@@ -130,9 +133,10 @@ public class TvFragment extends BackHandledFragment {
                 } else {
                     Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                     exittime = System.currentTimeMillis();
+                    return true;
                 }
 //                Log.d("Conversatio退出", "Conversatio退出");
-                return true;
+                return false;
             }
 
 

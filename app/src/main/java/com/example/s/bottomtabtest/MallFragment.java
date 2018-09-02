@@ -20,6 +20,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class MallFragment extends BackHandledFragment {
     private String url = " http://www.youjiequ.com/index.php?r=index/wap";
 
     private long exittime = 0;
+
+
 
     public MallFragment() {
 
@@ -60,6 +63,13 @@ public class MallFragment extends BackHandledFragment {
         View view = inflater.inflate(R.layout.fragment_mall, container, false);
         mallWebView = (WebView) view.findViewById(R.id.wv_mall);
         webSettings = mallWebView.getSettings();
+        TextView tvRefreshMall = (TextView) view.findViewById(R.id.mall_refresh);
+        tvRefreshMall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mallWebView.reload();
+            }
+        });
         return view;
     }
 
@@ -114,7 +124,7 @@ public class MallFragment extends BackHandledFragment {
 
         if(mallWebView.canGoBack()){
             mallWebView.goBack();
-            Log.d("webView.goBack()", "webView.goBack()");
+//            Log.d("webView.goBack()", "webView.goBack()");
             return true;
 
         }else{
@@ -126,10 +136,12 @@ public class MallFragment extends BackHandledFragment {
             } else {
                 Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exittime = System.currentTimeMillis();
+                return true;
             }
 //                Log.d("Conversatio退出", "Conversatio退出");
-            return true;
+            return false;
         }
+
 
     }
 

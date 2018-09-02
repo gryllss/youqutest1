@@ -45,9 +45,10 @@ public class VideoFragment extends BackHandledFragment {
         } else {
             Toast.makeText(getActivity(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
             exittime = System.currentTimeMillis();
+            return true;
         }
 //                Log.d("Conversatio退出", "Conversatio退出");
-        return true;
+        return false;
     }
 
 
