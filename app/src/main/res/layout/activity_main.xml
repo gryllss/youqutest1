@@ -51,9 +51,9 @@
             android:background="@android:color/transparent"
             android:button="@null"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/rb_tv"
+            android:drawableTop="@drawable/rb_baoyou"
             android:gravity="center"
-            android:text="TV"
+            android:text="9.9包邮"
             android:textColor="@color/main_tab_text_selector_tab"
             android:textSize="10sp" />
 
@@ -79,9 +79,9 @@
             android:button="@null"
             android:background="@android:color/transparent"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/rb_coupon"
+            android:drawableTop="@drawable/rb_search"
             android:gravity="center"
-            android:text="优惠券"
+            android:text="超级搜"
             android:textColor="@color/main_tab_text_selector_tab"
             android:textSize="10sp" />
 

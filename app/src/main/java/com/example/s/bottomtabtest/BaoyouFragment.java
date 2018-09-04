@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +16,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
 
-public class MallFragment extends Fragment {
+public class BaoyouFragment extends Fragment {
 
     private ImageButton mBack;
     private ImageButton mForward;
@@ -30,21 +28,22 @@ public class MallFragment extends Fragment {
     private ImageButton mRefresh;
 
 
-    public WebView mallWebView;
+    public WebView baoyouWebView;
 
     private WebSettings webSettings;
 
-    private String url = "http://www.youjiequ.com/index.php?r=index/wap";
+//    private String url = "http://wx.iptv789.com/?act=home";
+
+    private String url = "http://www.youjiequ.com/index.php?r=nine/wap";
 
     private long exittime = 0;
 
-
-    public MallFragment() {
+    public BaoyouFragment() {
 
     }
 
     public static Fragment newInstance() {
-        MallFragment fragment = new MallFragment();
+        BaoyouFragment fragment = new BaoyouFragment();
         return fragment;
     }
 
@@ -54,6 +53,8 @@ public class MallFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
+
 
     private void changGoForwardButton(WebView view) {
         if (view.canGoBack())
@@ -76,17 +77,18 @@ public class MallFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mall, container, false);
-        mallWebView = (WebView) view.findViewById(R.id.wv_mall);
+        View view = inflater.inflate(R.layout.fragment_baoyou, container, false);
+        baoyouWebView = (WebView) view.findViewById(R.id.wv_tv);
 
         mBack = (ImageButton) view.findViewById(R.id.btnBack1);
         mForward = (ImageButton) view.findViewById(R.id.btnForward1);
         mRefresh = (ImageButton) view.findViewById(R.id.btnrefresh1);
         mHome = (ImageButton) view.findViewById(R.id.btnHome1);
 
-        webSettings = mallWebView.getSettings();
-        mallWebView.getSettings().setJavaScriptEnabled(true);
-        mallWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
+        webSettings = baoyouWebView.getSettings();
+
+        baoyouWebView.getSettings().setJavaScriptEnabled(true);
+        baoyouWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
         webSettings.setUseWideViewPort(true);//自适应屏幕大小
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDatabaseEnabled(true);
@@ -95,7 +97,6 @@ public class MallFragment extends Fragment {
         webSettings.setAppCacheMaxSize(Long.MAX_VALUE);
         webSettings.setAppCachePath(getActivity().getDir("appcache", 0).getPath());
         webSettings.setDatabasePath(getActivity().getDir("databases", 0).getPath());
-        mallWebView.loadUrl(url);
 
         mBack.setAlpha(100);
         mForward.setAlpha(100);
@@ -107,8 +108,8 @@ public class MallFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (mallWebView != null && mallWebView.canGoBack())
-                    mallWebView.goBack();
+                if (baoyouWebView != null && baoyouWebView.canGoBack())
+                    baoyouWebView.goBack();
             }
         });
 
@@ -116,8 +117,8 @@ public class MallFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (mallWebView != null && mallWebView.canGoForward())
-                    mallWebView.goForward();
+                if (baoyouWebView != null && baoyouWebView.canGoForward())
+                    baoyouWebView.goForward();
             }
         });
 
@@ -125,19 +126,19 @@ public class MallFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (mallWebView != null)
-                    mallWebView.loadUrl(url);
+                if (baoyouWebView != null)
+                    baoyouWebView.loadUrl(url);
             }
         });
 
         mRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mallWebView.reload();
+                baoyouWebView.reload();
             }
         });
 
-        mallWebView.setWebViewClient(new WebViewClient(){
+        baoyouWebView.setWebViewClient(new WebViewClient(){
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -147,14 +148,17 @@ public class MallFragment extends Fragment {
         });
 
 
-        mallWebView.setOnKeyListener(new View.OnKeyListener() {
+
+        baoyouWebView.loadUrl(url);
+
+        baoyouWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK ) {
                         //这里处理返回键事件
-                        if (mallWebView.canGoBack()){
-                            mallWebView.goBack();
+                        if (baoyouWebView.canGoBack()){
+                            baoyouWebView.goBack();
 //                            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
                             return true;
                         }else {
@@ -172,6 +176,7 @@ public class MallFragment extends Fragment {
             }
         });
 
+
         return view;
     }
 
@@ -179,8 +184,8 @@ public class MallFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
     }
+
 
     private class MyWebViewClient extends WebViewClient {
         @Override
@@ -199,6 +204,36 @@ public class MallFragment extends Fragment {
     }
 
 
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="40dp"
+        android:background="#FFF"
         android:gravity="center"
-        android:text="优趣video"
-        android:textColor="#fff"
-        android:textSize="20sp"/>
+        android:text="优趣"
+        android:textColor="#5E5E5E"
+        android:textSize="18sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E6E6E6"/>
+
 
 
 

@@ -3,14 +3,13 @@
 android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
         <WebView
-            android:id="@+id/wv_mall"
+            android:id="@+id/wv_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>
@@ -63,7 +62,10 @@ android:orientation="vertical"
             android:padding="10dp"
             android:src="@drawable/theme_adrbar_btn_refresh_normal0" />
 
+
     </LinearLayout>
+
+
 
 
 </LinearLayout>

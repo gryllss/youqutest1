@@ -2,30 +2,20 @@ package com.example.s.bottomtabtest;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-//import android.support.v4.app.FragmentActivity;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.webkit.WebSettings;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ren.yale.android.cachewebviewlib.WebViewCacheInterceptor;
-import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
+//import android.support.v4.app.FragmentActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private RadioGroup mRgTab;
     private List<Fragment> mFragmentList = new ArrayList<>();
@@ -46,13 +36,13 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(VideoFragment.class.getName());
                         break;
                     case R.id.rb_tv:
-                        changeFragment(TvFragment.class.getName());
+                        changeFragment(BaoyouFragment.class.getName());
                         break;
                     case R.id.rb_mall:
                         changeFragment(MallFragment.class.getName());
                         break;
                     case R.id.rb_coupon:
-                        changeFragment(CouponFragment.class.getName());
+                        changeFragment(SearchFragment.class.getName());
                         break;
                     case R.id.rb_my:
                         changeFragment(MyFragment.class.getName());
@@ -81,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
             if (tag.equals(VideoFragment.class.getName())) {
                 fragment = VideoFragment.newInstance();
 
-            } else if (tag.equals(TvFragment.class.getName())) {
-                fragment = TvFragment.newInstance();
+            } else if (tag.equals(BaoyouFragment.class.getName())) {
+                fragment = BaoyouFragment.newInstance();
             } else if (tag.equals(MallFragment.class.getName())) {
                 fragment = MallFragment.newInstance();
-            } else if (tag.equals(CouponFragment.class.getName())) {
-                fragment = CouponFragment.newInstance();
+            } else if (tag.equals(SearchFragment.class.getName())) {
+                fragment = SearchFragment.newInstance();
             } else if (tag.equals(MyFragment.class.getName())) {
                 fragment = MyFragment.newInstance();
             }
@@ -108,7 +98,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
     private long exitTime=0;
+
+
 
     @Override
     public boolean onKeyDown(int keyCode,KeyEvent event){
@@ -131,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+
+
 
 
 

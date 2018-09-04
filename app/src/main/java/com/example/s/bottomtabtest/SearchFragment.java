@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,27 +15,33 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import ren.yale.android.cachewebviewlib.WebViewCacheInterceptorInst;
 
-public class CouponFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-    public WebView couponWebView;
+    private ImageButton mBack;
+    private ImageButton mForward;
+    private ImageButton mHome;
+    private ImageButton mRefresh;
+
+    public WebView searchWebView;
 
     private WebSettings webSettings;
 
-    private String url = "http://www.youjiequ.com/index.php?r=class/sub";
+    private String url = "http://www.youjiequ.com/index.php?r=index/classify";
 
     private long exittime = 0;
 
-    public CouponFragment() {
+    public SearchFragment() {
 
     }
 
     public static Fragment newInstance() {
-        CouponFragment fragment = new CouponFragment();
+        SearchFragment fragment = new SearchFragment();
         return fragment;
     }
 
@@ -47,52 +52,107 @@ public class CouponFragment extends Fragment {
 
     }
 
+    private void changGoForwardButton(WebView view) {
+        if (view.canGoBack())
+            mBack.setAlpha(255);
+        else
+            mBack.setAlpha(100);
+        if (view.canGoForward())
+            mForward.setAlpha(255);
+        else
+            mForward.setAlpha(100);
+        if (view.getUrl() != null && view.getUrl().equalsIgnoreCase(url)) {
+            mHome.setAlpha(100);
+            mHome.setEnabled(false);
+        } else {
+            mHome.setAlpha(255);
+            mHome.setEnabled(true);
+        }
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_coupon, container, false);
-        couponWebView = (WebView) view.findViewById(R.id.wv_coupon);
-        webSettings = couponWebView.getSettings();
-        couponWebView.getSettings().setJavaScriptEnabled(true);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        searchWebView = (WebView) view.findViewById(R.id.wv_search);
 
+        mBack = (ImageButton) view.findViewById(R.id.btnBack1);
+        mForward = (ImageButton) view.findViewById(R.id.btnForward1);
+        mRefresh = (ImageButton) view.findViewById(R.id.btnrefresh1);
+        mHome = (ImageButton) view.findViewById(R.id.btnHome1);
+
+        webSettings = searchWebView.getSettings();
+        searchWebView.getSettings().setJavaScriptEnabled(true);
         webSettings.setUseWideViewPort(true);//自适应屏幕大小
         webSettings.setLoadWithOverviewMode(true);
-        couponWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
+        searchWebView.getSettings().setDomStorageEnabled(true);//部分网页可能加载不完全，需要打开DOM储存
         webSettings.setDatabaseEnabled(true);
         webSettings.setAppCacheEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        final TextView tvRefreshcoupon = (TextView) view.findViewById(R.id.coupon_refresh);
-        tvRefreshcoupon.setOnClickListener(new View.OnClickListener() {
+        webSettings.setAppCacheMaxSize(Long.MAX_VALUE);
+        webSettings.setAppCachePath(getActivity().getDir("appcache", 0).getPath());
+        webSettings.setDatabasePath(getActivity().getDir("databases", 0).getPath());
+
+
+        searchWebView.loadUrl(url);
+        mBack.setAlpha(100);
+        mForward.setAlpha(100);
+        mHome.setAlpha(100);
+        mRefresh.setAlpha(255);
+        mHome.setEnabled(false);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                couponWebView.reload();
+                if (searchWebView != null && searchWebView.canGoBack())
+                    searchWebView.goBack();
             }
         });
 
-        couponWebView.loadUrl(url);
-        couponWebView.setWebViewClient(new WebViewClient() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Nullable
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(request);
-            }
+        mForward.setOnClickListener(new View.OnClickListener() {
 
-            @Nullable
             @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                return  WebViewCacheInterceptorInst.getInstance().interceptRequest(url);
+            public void onClick(View v) {
+                if (searchWebView != null && searchWebView.canGoForward())
+                    searchWebView.goForward();
             }
         });
 
-        couponWebView.setOnKeyListener(new View.OnKeyListener() {
+        mHome.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (searchWebView != null)
+                    searchWebView.loadUrl(url);
+            }
+        });
+
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchWebView.reload();
+            }
+        });
+
+        searchWebView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                changGoForwardButton(view);
+            }
+        });
+
+        searchWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK ) {
                         //这里处理返回键事件
-                        if (couponWebView.canGoBack()){
-                            couponWebView.goBack();
+                        if (searchWebView.canGoBack()){
+                            searchWebView.goBack();
 //                            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
                             return true;
                         }else {
